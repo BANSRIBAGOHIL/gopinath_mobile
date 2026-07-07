@@ -1,0 +1,18 @@
+# Uploaded files must never be executable - this is the key defense if a
+# malicious file ever slips past the image validation in upload.php.
+
+php_flag engine off
+
+<FilesMatch "\.(php|php3|php4|php5|phtml|pl|py|cgi|asp|aspx|sh|exe)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule !mod_authz_core.c>
+    <FilesMatch "\.(php|php3|php4|php5|phtml|pl|py|cgi|asp|aspx|sh|exe)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfModule>
+
+Options -ExecCGI
+AddHandler cgi-script .php .php3 .php4 .php5 .phtml .pl .py .cgi .asp .aspx .sh .exe
